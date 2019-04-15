@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+    <style>
+        div {
+            width: 800px;
+            height: 480px;
+            position: relative;
+            margin: auto;
+            border: 1px solid #000;
+            background-image: url(0.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        ul {
+            position: absolute;
+            display: flex;
+            list-style: none;
+            bottom: 10px;
+        }
+
+        li {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            margin: 10px;
+            border: 1px solid green;
+            cursor: pointer;
+            color: wheat;
+        }
+
+        button:nth-of-type(2) {
+            position: absolute;
+            right: 10px;
+            bottom: 20px;
+        }
+
+        button:nth-of-type(1) {
+            position: absolute;
+            right: 50px;
+            bottom: 20px;
+        }
+
+        .active {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <ul>
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <button>
+            <</button> <button>>
+        </button>
+    </div>
+
+    <script>
+        var div = document.querySelector('div');
+        var lis = document.querySelectorAll('li');
+        var btns = document.querySelectorAll('button');
+        var prve = lis[0];
+        var num = 0;
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].index = i;
+            lis[i].onclick = function () {
+                num = this.index;
+                prve.className = '';
+                this.className = 'active';
+                prve = this;
+
+                div.style.backgroundImage = 'url(' + this.index + '.jpg)';
+            }
+        }
+        setInterval(function () {
+            div.style.backgroundImage = 'url(' + num + '.jpg)';
+
+            prve.className = '';
+            prve = lis[num];
+            lis[num].className = 'active';
+            num++;
+            if (num > 3) {
+                num = 0;
+            }
+        }, 5000)
+
+        for (var j = 0; j < btns.length; j++) {
+            btns[j].index = j;
+            btns[j].onclick = function () {
+                switch (this.index) {
+                    case 1:
+                        num++;
+                        if (num > 3) {
+                            num = 0;
+                        }
+                        prve.className = '';
+                        prve = lis[num];
+                        div.style.backgroundImage = 'url(' + num + '.jpg)';
+                        lis[num].className = 'active';
+                        break;
+                    case 0:
+                        num--;
+                        if (num < 0) {
+                            num = 3;
+                        }
+                        prve.className = '';
+                        prve = lis[num];
+                        div.style.backgroundImage = 'url(' + num + '.jpg)';
+                        lis[num].className = 'active';
+                        break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
